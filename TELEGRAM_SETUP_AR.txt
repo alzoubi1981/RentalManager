@@ -1,4 +1,4 @@
-إعداد رسائل Telegram — Rental Manager V9
+إعداد رسائل Telegram — Rental Manager V9.1
 ==========================================
 
 يحتاج GitHub Actions إلى أربعة Repository Secrets:

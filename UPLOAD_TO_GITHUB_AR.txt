@@ -1,9 +1,9 @@
-رفع Rental Manager V9 إلى المستودع الجديد
+رفع Rental Manager V9.1 إلى المستودع الجديد
 ==========================================
 
 1) افتح مستودع RentalManager.
 2) اضغط uploading an existing file.
-3) فك ضغط الملف، ثم ارفع كل الملفات الموجودة داخل مجلد RentalManager-V9.
+3) فك ضغط الملف، ثم ارفع كل الملفات الموجودة داخل مجلد RentalManager-V9.1.
 4) في Windows فعّل View > Show > Hidden items حتى يظهر مجلد .github.
 5) تحقق بعد الرفع أن هذا المسار موجود:
    .github/workflows/telegram-reminders.yml
@@ -12,4 +12,4 @@
 8) رابط التطبيق سيكون:
    https://alzoubi1981.github.io/RentalManager/
 
-لا ترفع مجلد RentalManager-V9 نفسه داخل المستودع؛ ارفع محتوياته فقط.
+لا ترفع مجلد RentalManager-V9.1 نفسه داخل المستودع؛ ارفع محتوياته فقط.

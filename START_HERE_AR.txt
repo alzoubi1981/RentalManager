@@ -1,0 +1,12 @@
+ابدأ من هنا — RentalManager V9.1
+
+1) احذف الملفات الحالية من المستودع الجديد RentalManager أو استبدلها.
+2) فك ضغط الملف على الكمبيوتر.
+3) ارفع محتويات مجلد RentalManager-V9.1 إلى جذر المستودع.
+4) مهم: المجلدان التاليان جزء من المشروع ويجب رفعهما:
+   .github/workflows/telegram-reminders.yml
+   scripts/telegram-reminders.js
+5) في Windows فعّل: View > Show > Hidden items لرؤية مجلد .github.
+6) بعد الرفع فعّل GitHub Pages من Settings > Pages > Deploy from a branch > main / root.
+
+ملاحظة: التطبيق نفسه موجود في index.html ولا يعتمد على app.js أو styles.css؛ لذلك عدم وجودهما طبيعي.
