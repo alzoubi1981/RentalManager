@@ -53,7 +53,7 @@ async function sendMessage(text) {
 
 async function main() {
   if (process.env.SEND_TEST === 'true') {
-    await sendMessage(process.env.TEST_MESSAGE || '✅ تم ربط RentalManager V10 مع تيليغرام بنجاح.');
+    await sendMessage(process.env.TEST_MESSAGE || '✅ تم ربط RentalManager V10.1 مع تيليغرام بنجاح.');
     console.log('Telegram test message sent.');
     return;
   }
@@ -107,7 +107,7 @@ async function main() {
     console.log(`Sent ${item.key}`);
   }
 
-  await ref.set({ state, updatedAt: FieldValue.serverTimestamp(), version: '10.0' }, { merge: false });
+  await ref.set({ state, updatedAt: FieldValue.serverTimestamp(), version: '10.1' }, { merge: false });
 }
 
 main().catch(error => {
