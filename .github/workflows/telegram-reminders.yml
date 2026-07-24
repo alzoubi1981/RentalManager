@@ -1,0 +1,40 @@
+name: Telegram rental reminders
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+    inputs:
+      send_test:
+        description: 'Send a Telegram test message'
+        required: false
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  send-reminders:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install dependencies
+        run: npm install --omit=dev
+      - name: Check and send reminders
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          FIREBASE_DOCUMENT_ID: ${{ secrets.FIREBASE_DOCUMENT_ID }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          APP_TIME_ZONE: America/New_York
+          SEND_TEST: ${{ github.event_name == 'workflow_dispatch' && inputs.send_test || 'false' }}
+          TEST_MESSAGE: '✅ RentalManager V10: اختبار تيليغرام ناجح.'
+        run: node scripts/telegram-reminders.js
