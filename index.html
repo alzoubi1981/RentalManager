@@ -32,7 +32,7 @@ dialog{border:0;border-radius:22px;padding:0;width:min(92vw,520px);box-shadow:0 
 @media(max-width:760px){.finance-grid{grid-template-columns:repeat(2,1fr)}.owner-summary{grid-template-columns:1fr}.owner-numbers{grid-template-columns:repeat(2,1fr)}.details-grid{grid-template-columns:1fr}.detail-wide{grid-column:auto}.mini-stats{grid-template-columns:1fr}main{padding:12px}.stats{grid-template-columns:repeat(2,1fr)}.card-grid{grid-template-columns:1fr}.hero{padding:20px}.hero h2{font-size:1.15rem}.topbar{padding:13px 15px}.topbar h1{font-size:1.05rem}.sync-badge{display:none}}
 
 </style>
-  <title>إدارة الإيجارات V9.1</title>
+  <title>إدارة الإيجارات V10</title>
 
 <script>
 window.addEventListener("error", function(e){
@@ -52,7 +52,7 @@ window.addEventListener("error", function(e){
   <div>
     <div class="eyebrow">Rental Manager</div>
     <h1>إدارة الإيجارات</h1>
-    <p>Aladdin & Ahmad · V9.1</p>
+    <p>Aladdin & Ahmad · V10</p>
   </div>
   <div class="header-actions">
     <span id="syncBadge" class="sync-badge local">حفظ محلي</span>
@@ -467,7 +467,7 @@ function setCloudStatus(ok,text,stamp=""){
 }
 function cloudDocRef(){const id=($("#cloudDocumentId")?.value||"aladdin-rental-manager").trim();return cloudDb.collection("rentalManagers").doc(id)}
 function normalizeCloudState(data){const payload=data?.state||data;if(!payload||typeof payload!=="object")throw new Error("بيانات السحابة غير صالحة");return {...defaultState(),...payload}}
-async function pushCloud(silent=false){if(!cloudDb){if(!silent)toast("اتصل بـ Firebase أولًا");return}try{await cloudDocRef().set({state,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"9.0"},{merge:false});const stamp="آخر رفع: "+new Date().toLocaleTimeString("ar");setCloudStatus(true,"متصل",stamp);if(!silent)toast("تم رفع البيانات للسحابة")}catch(err){setCloudStatus(false,"خطأ في الاتصال");if(!silent)toast("فشل الرفع: "+(err.message||err))}}
+async function pushCloud(silent=false){if(!cloudDb){if(!silent)toast("اتصل بـ Firebase أولًا");return}try{await cloudDocRef().set({state,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"10.0"},{merge:false});const stamp="آخر رفع: "+new Date().toLocaleTimeString("ar");setCloudStatus(true,"متصل",stamp);if(!silent)toast("تم رفع البيانات للسحابة")}catch(err){setCloudStatus(false,"خطأ في الاتصال");if(!silent)toast("فشل الرفع: "+(err.message||err))}}
 async function pullCloud(silent=false){if(!cloudDb){if(!silent)toast("اتصل بـ Firebase أولًا");return}try{const snap=await cloudDocRef().get();if(!snap.exists){if(!silent)toast("لا توجد بيانات سحابية بعد");return}cloudApplying=true;state=normalizeCloudState(snap.data());localStorage.setItem(KEY,JSON.stringify(state));renderAll();cloudApplying=false;setCloudStatus(true,"متصل","آخر تنزيل: "+new Date().toLocaleTimeString("ar"));if(!silent)toast("تم تنزيل بيانات السحابة")}catch(err){cloudApplying=false;setCloudStatus(false,"خطأ في الاتصال");if(!silent)toast("فشل التنزيل: "+(err.message||err))}}
 function hasLocalData(){return [state.tenants,state.payments,state.expenses,state.ledgers,state.archive,state.archiveRooms,state.reminders].some(a=>Array.isArray(a)&&a.length>0)||state.rooms.some(r=>Number(r.rent||0)>0)}
 function startCloudListener(ref){

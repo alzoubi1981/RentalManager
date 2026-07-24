@@ -1,19 +1,29 @@
-إعداد رسائل Telegram — Rental Manager V9.1
-==========================================
+إعداد Telegram وGitHub Actions — RentalManager V10
 
-يحتاج GitHub Actions إلى أربعة Repository Secrets:
+داخل المستودع الجديد RentalManager أضف Repository Secrets التالية:
 
-TELEGRAM_BOT_TOKEN
-TELEGRAM_CHAT_ID
-FIREBASE_SERVICE_ACCOUNT
-FIREBASE_DOCUMENT_ID
+1. TELEGRAM_BOT_TOKEN
+   التوكن الذي أعطاك إياه BotFather.
 
-القيمة المقترحة لـ FIREBASE_DOCUMENT_ID:
-aladdin-rental-manager
+2. TELEGRAM_CHAT_ID
+   رقم المحادثة الذي وجدته بواسطة getUpdates.
 
-FIREBASE_SERVICE_ACCOUNT هو محتوى ملف JSON لمفتاح Service Account من Firebase/Google Cloud. لا تضعه داخل ملفات المستودع ولا ترسله لأي شخص.
+3. FIREBASE_SERVICE_ACCOUNT
+   من Firebase Console:
+   Project settings > Service accounts > Generate new private key
+   افتح ملف JSON وانسخ محتواه بالكامل كقيمة للـ Secret.
+   لا ترفع ملف Service Account إلى GitHub ولا ترسله لأي شخص.
 
-المسار الصحيح للـ Workflow:
-.github/workflows/telegram-reminders.yml
+4. FIREBASE_DOCUMENT_ID
+   القيمة نفسها الموجودة في إعدادات التطبيق. القيمة الافتراضية:
+   aladdin-rental-manager
 
-بعد إضافة الأسرار افتح Actions > Telegram rental reminders > Run workflow للاختبار.
+المسار:
+Settings > Secrets and variables > Actions > New repository secret
+
+الاختبار:
+Actions > Telegram rental reminders > Run workflow
+اترك Send a Telegram test message مفعّلًا، ثم اضغط Run workflow.
+يجب أن تصلك رسالة اختبار حتى لو لم يوجد تذكير مستحق.
+
+بعد نجاح الاختبار، يعمل الفحص المجدول كل 5 دقائق. قد يتأخر التنفيذ بضع دقائق لأن GitHub لا يضمن التشغيل في الثانية المحددة.
