@@ -1,16 +1,10 @@
-RentalManager V10 — ابدأ من هنا
+RentalManager V10.1
 
-1) ارفع جميع الملفات الموجودة داخل هذا المجلد إلى مستودع RentalManager.
-2) يجب أن يظهر المساران التاليان داخل GitHub:
+1) ارفع الملفات العادية إلى جذر المستودع RentalManager.
+2) أنشئ يدويًا هذين المسارين في GitHub (وقد أنشأتهما بالفعل):
    .github/workflows/telegram-reminders.yml
    scripts/telegram-reminders.js
-3) إذا لم يظهر مجلد .github في Windows:
-   View > Show > Hidden items
-4) فعّل GitHub Pages:
-   Settings > Pages > Deploy from a branch > main > /(root) > Save
-5) افتح التطبيق:
-   https://alzoubi1981.github.io/RentalManager/
-6) اربط Firebase من صفحة الإعدادات داخل التطبيق.
-7) راجع TELEGRAM_SETUP_AR.txt لإكمال تيليغرام.
-
-مهم: عند رفع الملفات من صفحة GitHub، اسحب المجلدين .github و scripts إلى مربع الرفع، ولا تكتفِ بتحديد الملفات الظاهرة فقط.
+3) انسخ محتوى الملفين من هذه النسخة إلى المسارين الصحيحين.
+4) فعّل GitHub Pages من Settings > Pages > Deploy from a branch > main / root.
+5) أضف Repository Secrets: TELEGRAM_BOT_TOKEN و TELEGRAM_CHAT_ID و FIREBASE_SERVICE_ACCOUNT و FIREBASE_DOCUMENT_ID.
+6) افتح Actions وشغّل Telegram rental reminders يدويًا للاختبار.
