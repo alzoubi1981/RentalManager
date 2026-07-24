@@ -36,5 +36,5 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           APP_TIME_ZONE: America/New_York
           SEND_TEST: ${{ github.event_name == 'workflow_dispatch' && inputs.send_test || 'false' }}
-          TEST_MESSAGE: '✅ RentalManager V10: اختبار تيليغرام ناجح.'
+          TEST_MESSAGE: '✅ RentalManager V10.1: اختبار تيليغرام ناجح.'
         run: node scripts/telegram-reminders.js
