@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#1e3a8a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="إدارة الإيجارات">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <style>
+:root{--navy:#0f2463;--blue:#2563eb;--sky:#eaf2ff;--ink:#172033;--muted:#6b7280;--line:#e5e7eb;--card:#fff;--bg:#f5f7fb;--danger:#dc2626;--success:#059669}
+*{box-sizing:border-box}html{background:var(--bg)}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;background:linear-gradient(180deg,#edf3ff 0,#f7f8fb 240px);color:var(--ink);min-height:100vh;padding-bottom:92px}
+button,input,select,textarea{font:inherit}.topbar{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:rgba(15,36,99,.94);backdrop-filter:blur(14px);color:white;box-shadow:0 10px 30px rgba(15,36,99,.18)}
+.topbar h1{font-size:1.25rem;margin:2px 0}.topbar p,.eyebrow{margin:0;opacity:.75;font-size:.78rem}.eyebrow{text-transform:uppercase;letter-spacing:.12em}.header-actions{display:flex;align-items:center;gap:8px}.icon-btn,.sync-badge{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.1);color:#fff;border-radius:12px;padding:8px 10px}.sync-badge{font-size:.72rem}.sync-badge.cloud{background:#047857}
+main{max-width:1100px;margin:auto;padding:18px}.page{display:none}.page.active{display:block}.hero{display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,var(--navy),#315ed1);color:#fff;border-radius:24px;padding:24px;margin-bottom:16px;box-shadow:0 20px 45px rgba(37,99,235,.2)}.hero h2{margin:6px 0 0;font-size:1.45rem}.hero small{opacity:.72}.hero-mark{font-size:3rem;opacity:.35}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}.stats article,.panel,.room-card,.tenant-card{background:var(--card);border:1px solid rgba(226,232,240,.85);border-radius:18px;box-shadow:0 10px 30px rgba(15,23,42,.055)}.stats article{padding:16px}.stats span{display:block;color:var(--muted);font-size:.78rem}.stats strong{display:block;font-size:1.5rem;margin-top:8px;color:var(--navy)}
+.panel{padding:16px}.panel-head,.page-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px}.page-head h2,.panel h2{margin:2px 0}.page-head small,.muted{color:var(--muted)}.primary,.secondary,.danger{border:0;border-radius:12px;padding:10px 14px;cursor:pointer}.primary{background:linear-gradient(135deg,var(--blue),#1d4ed8);color:#fff;box-shadow:0 8px 18px rgba(37,99,235,.2)}.secondary{background:#eef2ff;color:var(--navy)}.danger{background:#fee2e2;color:var(--danger)}.full{width:100%}.stack{display:grid;gap:10px}.file-label{text-align:center;cursor:pointer}
+.segmented{display:flex;gap:6px;background:#e8edf8;padding:5px;border-radius:14px;margin-bottom:14px;overflow:auto}.segmented button{border:0;background:transparent;padding:9px 14px;border-radius:10px;white-space:nowrap;color:#526079}.segmented button.active{background:#fff;color:var(--navy);box-shadow:0 4px 12px rgba(15,23,42,.08);font-weight:700}
+.search{width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 14px;margin-bottom:14px;outline:none}.search:focus,input:focus,select:focus,textarea:focus{border-color:#93b4ff;box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.card-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.room-card,.tenant-card{padding:16px}.room-card h3,.tenant-card h3{margin:0 0 7px}.meta{color:var(--muted);font-size:.88rem;line-height:1.65}.badge{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:.72rem;background:#dcfce7;color:#166534}.actions{display:flex;gap:7px;margin-top:12px}.list{display:grid;gap:10px}.list-item{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.empty{text-align:center;color:var(--muted);padding:28px}
+.table-wrap{overflow:auto;padding:0}.table-wrap table{width:100%;border-collapse:collapse;min-width:670px}.table-wrap th,.table-wrap td{padding:13px;border-bottom:1px solid var(--line);text-align:start}.table-wrap th{background:#f7f9fd;color:#475569;font-size:.8rem}.table-wrap tr:last-child td{border-bottom:0}
+.bottom-nav{position:fixed;z-index:30;bottom:0;left:0;right:0;display:flex;overflow-x:auto;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border-top:1px solid var(--line);padding:7px max(8px,env(safe-area-inset-right)) calc(7px + env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));box-shadow:0 -10px 30px rgba(15,23,42,.08)}.bottom-nav button{flex:1;min-width:70px;border:0;background:transparent;color:#778195;padding:5px}.bottom-nav button span{display:block;font-size:1.2rem}.bottom-nav button small{font-size:.67rem}.bottom-nav button.active{color:var(--blue)}
+dialog{border:0;border-radius:22px;padding:0;width:min(92vw,520px);box-shadow:0 30px 90px rgba(15,23,42,.28)}dialog::backdrop{background:rgba(15,23,42,.55);backdrop-filter:blur(4px)}dialog form{padding:22px;display:grid;gap:13px}dialog h3{margin:0 0 4px}label{display:grid;gap:6px;font-size:.86rem;color:#475569}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px;background:#fff;outline:none}textarea{min-height:85px;resize:vertical}.dialog-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:5px}.toast{position:fixed;z-index:50;bottom:105px;left:50%;transform:translate(-50%,20px);background:#111827;color:#fff;padding:10px 16px;border-radius:999px;opacity:0;pointer-events:none;transition:.2s}.toast.show{opacity:1;transform:translate(-50%,0)}
+.details-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.detail-box{background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:12px}.detail-box span{display:block;color:var(--muted);font-size:.76rem;margin-bottom:4px}.detail-box strong{color:var(--navy)}.detail-wide{grid-column:1/-1}.attachment-row{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff}.attachment-row a{color:var(--blue);text-decoration:none;font-weight:700}.mini-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.mini-stats .detail-box{text-align:center}.tenant-card .name-link{border:0;background:transparent;padding:0;color:var(--navy);font-weight:800;font-size:1.05rem;cursor:pointer}.tenant-card .name-link:hover{text-decoration:underline}.section-title{margin:18px 0 8px;font-size:1rem;color:var(--navy)}
+
+.finance-toolbar{display:flex;gap:10px;align-items:end;flex-wrap:wrap;margin-bottom:14px}.finance-toolbar label{min-width:190px}.finance-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}.finance-card{background:#fff;border:1px solid rgba(226,232,240,.9);border-radius:18px;padding:16px;box-shadow:0 10px 30px rgba(15,23,42,.055)}.finance-card span{display:block;color:var(--muted);font-size:.78rem}.finance-card strong{display:block;font-size:1.35rem;margin-top:8px;color:var(--navy)}.finance-card.positive strong{color:var(--success)}.finance-card.negative strong{color:var(--danger)}.owner-summary{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.owner-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px}.owner-card h3{margin:0 0 12px;color:var(--navy)}.owner-numbers{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.owner-numbers div{background:#f8fafc;border-radius:12px;padding:10px}.owner-numbers span{display:block;color:var(--muted);font-size:.72rem}.owner-numbers strong{display:block;margin-top:4px}.finance-table{margin-top:16px}.month-note{color:var(--muted);font-size:.8rem;margin-top:8px}
+.cloud-settings{display:grid;gap:12px;margin-top:14px}.cloud-status-card{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:12px}.cloud-dot{width:10px;height:10px;border-radius:50%;background:#94a3b8;display:inline-block;margin-inline-end:7px}.cloud-dot.online{background:var(--success);box-shadow:0 0 0 4px rgba(5,150,105,.12)}.cloud-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.cloud-help{font-size:.78rem;line-height:1.7;color:var(--muted);background:#eff6ff;border-radius:12px;padding:10px}.danger-outline{border:1px solid #fecaca;background:#fff;color:var(--danger);border-radius:12px;padding:10px 14px;cursor:pointer}
+
+.reminder-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}.reminder-card.due{border-color:#f59e0b;background:#fffbeb}.reminder-card.sent{opacity:.7}.reminder-meta{color:var(--muted);font-size:.8rem;margin-top:6px}.archive-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px}.archive-card h3{margin:0 0 7px}.actions.wrap{flex-wrap:wrap}.danger-solid{border:0;background:var(--danger);color:#fff;border-radius:12px;padding:10px 14px;cursor:pointer}
+@media(max-width:760px){.finance-grid{grid-template-columns:repeat(2,1fr)}.owner-summary{grid-template-columns:1fr}.owner-numbers{grid-template-columns:repeat(2,1fr)}.details-grid{grid-template-columns:1fr}.detail-wide{grid-column:auto}.mini-stats{grid-template-columns:1fr}main{padding:12px}.stats{grid-template-columns:repeat(2,1fr)}.card-grid{grid-template-columns:1fr}.hero{padding:20px}.hero h2{font-size:1.15rem}.topbar{padding:13px 15px}.topbar h1{font-size:1.05rem}.sync-badge{display:none}}
+
+</style>
+  <title>إدارة الإيجارات V9</title>
+
+<script>
+window.addEventListener("error", function(e){
+  var old=document.getElementById("appError");
+  if(old) old.remove();
+  var box=document.createElement("div");
+  box.id="appError";
+  box.style.cssText="position:fixed;z-index:9999;left:10px;right:10px;top:10px;background:#b91c1c;color:#fff;padding:12px;border-radius:12px;font-family:Arial";
+  box.textContent="خطأ في تشغيل التطبيق: "+(e.message||"Unknown error");
+  document.body.appendChild(box);
+});
+</script>
+
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <div class="eyebrow">Rental Manager</div>
+    <h1>إدارة الإيجارات</h1>
+    <p>Aladdin & Ahmad · V9</p>
+  </div>
+  <div class="header-actions">
+    <span id="syncBadge" class="sync-badge local">حفظ محلي</span>
+    <button id="langBtn" class="icon-btn">EN</button>
+  </div>
+</header>
+
+<main>
+  <section id="dashboard" class="page active">
+    <div class="hero">
+      <div><small>نظرة عامة</small><h2>كل بيانات الإيجارات في مكان واحد</h2></div>
+      <div class="hero-mark">⌂</div>
+    </div>
+    <div class="stats">
+      <article><span>الغرف المؤجرة</span><strong id="statOccupied">0</strong></article>
+      <article><span>المستأجرون</span><strong id="statTenants">0</strong></article>
+      <article><span>الإيجار الشهري</span><strong id="statIncome">$0</strong></article>
+      <article><span>المصاريف</span><strong id="statExpenses">$0</strong></article>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h2>التنبيهات</h2></div>
+      <div id="alertsList" class="list"></div>
+    </div>
+  </section>
+
+  <section id="rooms" class="page">
+    <div class="page-head">
+      <div><small>الغرف المؤجرة فقط</small><h2>الغرف</h2></div>
+      <button id="addRoomBtn" class="primary">+ إضافة غرفة</button>
+    </div>
+    <div class="segmented" id="roomHouseTabs">
+      <button data-house="Aladdin" class="active">Aladdin</button>
+      <button data-house="Ahmad">Ahmad</button>
+    </div>
+    <input id="roomSearch" class="search" placeholder="بحث بالغرفة أو المستأجر">
+    <div id="roomsGrid" class="card-grid"></div>
+  </section>
+
+  <section id="tenants" class="page">
+    <div class="page-head">
+      <div><small>عرض منفصل لكل بيت</small><h2>المستأجرون</h2></div>
+      <button id="addTenantBtn" class="primary">+ إضافة مستأجر</button>
+    </div>
+    <div class="segmented" id="tenantHouseTabs">
+      <button data-house="Aladdin" class="active">مستأجرو Aladdin</button>
+      <button data-house="Ahmad">مستأجرو Ahmad</button>
+    </div>
+    <input id="tenantSearch" class="search" placeholder="بحث بالاسم أو الهاتف">
+    <div id="tenantList" class="list"></div>
+  </section>
+
+  <section id="payments" class="page">
+    <div class="page-head"><div><small>سجل التحصيل</small><h2>الدفعات</h2></div><button id="addPaymentBtn" class="primary">+ دفعة</button></div>
+    <div id="paymentsList" class="list"></div>
+  </section>
+
+  <section id="expenses" class="page">
+    <div class="page-head"><div><small>جدولان منفصلان</small><h2>المصاريف</h2></div><button id="addExpenseBtn" class="primary">+ مصروف</button></div>
+    <div class="segmented" id="expenseTabs">
+      <button data-owner="Aladdin" class="active">مصاريف Aladdin</button>
+      <button data-owner="Ahmad">مصاريف Ahmad</button>
+    </div>
+    <div class="table-wrap panel">
+      <table>
+        <thead><tr><th>Name</th><th>Amount</th><th>Date</th><th>Note</th><th></th></tr></thead>
+        <tbody id="expenseBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="ledgers" class="page">
+    <div class="page-head"><div><small>Name, Amount, Date, Note</small><h2>الجداول</h2></div><button id="addLedgerBtn" class="primary">+ سجل</button></div>
+    <div class="segmented" id="ledgerTabs">
+      <button data-owner="Aladdin" class="active">Aladdin</button>
+      <button data-owner="Ahmad">Ahmad</button>
+    </div>
+    <div class="table-wrap panel">
+      <table>
+        <thead><tr><th>Name</th><th>Amount</th><th>Date</th><th>Note</th><th></th></tr></thead>
+        <tbody id="ledgerBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+
+  <section id="finance" class="page">
+    <div class="page-head"><div><small>الدخل والمصاريف حسب الشهر</small><h2>اللوحة المالية</h2></div></div>
+    <div class="panel finance-toolbar">
+      <label>اختر الشهر<input id="financeMonth" type="month"></label>
+      <button id="financeCurrentMonth" class="secondary" type="button">الشهر الحالي</button>
+    </div>
+    <div class="finance-grid">
+      <article class="finance-card"><span>الإيجار المتوقع</span><strong id="finExpected">$0</strong></article>
+      <article class="finance-card positive"><span>المحصل</span><strong id="finCollected">$0</strong></article>
+      <article class="finance-card negative"><span>المتبقي</span><strong id="finOutstanding">$0</strong></article>
+      <article class="finance-card negative"><span>المصاريف</span><strong id="finExpenses">$0</strong></article>
+      <article class="finance-card positive"><span>صافي الدخل</span><strong id="finNet">$0</strong></article>
+    </div>
+    <div id="financeOwners" class="owner-summary"></div>
+    <div class="panel finance-table">
+      <div class="panel-head"><h2>تفصيل المستأجرين</h2></div>
+      <div class="table-wrap">
+        <table><thead><tr><th>المستأجر</th><th>البيت</th><th>الغرفة</th><th>الإيجار</th><th>المدفوع</th><th>المتبقي</th></tr></thead><tbody id="financeTenantBody"></tbody></table>
+      </div>
+      <div class="month-note">يتم حساب الدفعات والمصاريف المسجلة في الشهر المختار فقط.</div>
+    </div>
+  </section>
+
+  <section id="reminders" class="page">
+    <div class="page-head"><div><small>تذكيرات خاصة بالتاريخ والوقت</small><h2>التذكيرات</h2></div><button id="addReminderBtn" class="primary">+ تذكير</button></div>
+    <div class="panel" style="margin-bottom:14px"><p class="muted" style="margin:0">يحفظ التطبيق التذكيرات في Firebase. ملف GitHub Actions المرفق يفحصها كل 5 دقائق ويرسلها إلى تيليغرام بعد إكمال الإعداد.</p></div>
+    <div id="remindersList" class="list"></div>
+  </section>
+
+  <section id="archive" class="page">
+    <div class="page-head"><div><small>السجلات السابقة</small><h2>الأرشيف</h2></div></div>
+    <div id="archiveList" class="list"></div>
+  </section>
+
+  <section id="settings" class="page">
+    <div class="panel">
+      <h2>Firebase والمزامنة</h2>
+      <p class="muted">اربط التطبيق بمشروع Firebase حتى تظهر نفس البيانات على الهاتف والكمبيوتر.</p>
+      <div class="cloud-settings">
+        <div class="cloud-status-card"><div><span id="cloudDot" class="cloud-dot"></span><strong id="cloudStatusText">غير متصل</strong></div><small id="cloudLastSync" class="muted">حفظ محلي</small></div>
+        <label>Firebase Config (JSON فقط)<textarea id="firebaseConfigInput" dir="ltr" placeholder='{"apiKey":"...","authDomain":"...","projectId":"..."}'></textarea></label>
+        <label>معرّف قاعدة البيانات المشتركة<input id="cloudDocumentId" dir="ltr" value="aladdin-rental-manager" placeholder="aladdin-rental-manager"></label>
+        <div class="cloud-actions">
+          <button id="connectCloudBtn" class="primary" type="button">اتصال</button>
+          <button id="disconnectCloudBtn" class="danger-outline" type="button">فصل الاتصال</button>
+          <button id="pushCloudBtn" class="secondary" type="button">رفع بيانات هذا الجهاز</button>
+          <button id="pullCloudBtn" class="secondary" type="button">تنزيل بيانات السحابة</button>
+        </div>
+        <div class="cloud-help">في Firebase فعّل Firestore Database. يجب أن تسمح قواعد Firestore بالقراءة والكتابة لحسابك أو أثناء الاختبار. لا تشارك إعدادات المشروع أو معرّف المستند مع أشخاص غير موثوقين.</div>
+      </div>
+    </div>
+    <div class="panel" style="margin-top:14px">
+      <h2>النسخ الاحتياطي</h2>
+      <div class="stack">
+        <button id="exportBtn" class="primary full">تصدير نسخة احتياطية</button>
+        <label class="secondary full file-label">استعادة نسخة احتياطية<input id="importInput" type="file" accept=".json" hidden></label>
+      </div>
+    </div>
+  </section>
+</main>
+
+<nav class="bottom-nav">
+  <button data-page="dashboard" class="active"><span>⌂</span><small>الرئيسية</small></button>
+  <button data-page="rooms"><span>▦</span><small>الغرف</small></button>
+  <button data-page="tenants"><span>♙</span><small>المستأجرون</small></button>
+  <button data-page="payments"><span>$</span><small>الدفعات</small></button>
+  <button data-page="expenses"><span>−</span><small>المصاريف</small></button>
+  <button data-page="finance"><span>◉</span><small>المالية</small></button>
+  <button data-page="ledgers"><span>▤</span><small>الجداول</small></button>
+  <button data-page="reminders"><span>🔔</span><small>التذكيرات</small></button>
+  <button data-page="archive"><span>◷</span><small>الأرشيف</small></button>
+  <button data-page="settings"><span>⚙</span><small>الإعدادات</small></button>
+</nav>
+
+<dialog id="roomDialog"><form id="roomForm">
+  <h3>إضافة/تعديل غرفة</h3><input id="roomId" type="hidden">
+  <label>البيت<select id="roomHouse"><option>Aladdin</option><option>Ahmad</option></select></label>
+  <label>الغرفة<select id="roomNameSelect"></select><input id="roomNameCustom" placeholder="اسم الغرفة"></label>
+  <label>قيمة الإيجار<input id="roomRent" type="number" min="0" step=".01" required></label>
+  <div class="dialog-actions"><button type="button" class="secondary cancel">إلغاء</button><button class="primary">حفظ</button></div>
+</form></dialog>
+
+<dialog id="tenantDialog"><form id="tenantForm">
+  <h3>إضافة/تعديل مستأجر</h3><input id="tenantId" type="hidden">
+  <label>الاسم<input id="tenantName" required></label>
+  <label>الهاتف<input id="tenantPhone" type="tel"></label>
+  <label>البريد الإلكتروني<input id="tenantEmail" type="email"></label>
+  <label>جهة اتصال للطوارئ<input id="tenantEmergency"></label>
+  <label>البيت<select id="tenantHouse"><option>Aladdin</option><option>Ahmad</option></select></label>
+  <label>الغرفة<select id="tenantRoom" required></select></label>
+  <label>قيمة الإيجار<input id="tenantRent" type="number" min="0" step=".01" required></label>
+  <label>بداية الإيجار<input id="tenantStart" type="date" required></label>
+  <label>نهاية الإيجار<input id="tenantEnd" type="date"></label>
+  <label>التأمين<input id="tenantDeposit" type="number" min="0" step=".01"></label>
+  <label>يوم استحقاق الإيجار<input id="tenantDueDay" type="number" min="1" max="31"></label>
+  <label>ملاحظات<textarea id="tenantNotes"></textarea></label>
+  <label>صورة الهوية أو ملفها<input id="tenantIdFile" type="file" accept="image/*,.pdf"></label>
+  <label>صورة العقد أو ملفه<input id="tenantContractFile" type="file" accept="image/*,.pdf"></label>
+  <small class="muted">الحد الأقصى لكل ملف 1.5 MB حتى يبقى التطبيق سريعًا.</small>
+  <div class="dialog-actions"><button type="button" class="secondary cancel">إلغاء</button><button class="primary">حفظ</button></div>
+</form></dialog>
+
+<dialog id="paymentDialog"><form id="paymentForm">
+  <h3>إضافة دفعة</h3>
+  <label>المستأجر<select id="paymentTenant" required></select></label>
+  <label>المبلغ<input id="paymentAmount" type="number" min="0" step=".01" required></label>
+  <label>التاريخ<input id="paymentDate" type="date" required></label>
+  <label>طريقة الدفع<select id="paymentMethod"><option>Cash</option><option>Zelle</option><option>Venmo</option><option>Check</option><option>Other</option></select></label>
+  <label>ملاحظة<input id="paymentNote"></label>
+  <div class="dialog-actions"><button type="button" class="secondary cancel">إلغاء</button><button class="primary">حفظ</button></div>
+</form></dialog>
+
+<dialog id="expenseDialog"><form id="expenseForm">
+  <h3>إضافة مصروف</h3><input id="expenseId" type="hidden">
+  <label>الجدول<select id="expenseOwner"><option>Aladdin</option><option>Ahmad</option></select></label>
+  <label>Name<input id="expenseName" required></label><label>Amount<input id="expenseAmount" type="number" min="0" step=".01" required></label>
+  <label>Date<input id="expenseDate" type="date" required></label><label>Note<textarea id="expenseNote"></textarea></label>
+  <div class="dialog-actions"><button type="button" class="secondary cancel">إلغاء</button><button class="primary">حفظ</button></div>
+</form></dialog>
+
+<dialog id="ledgerDialog"><form id="ledgerForm">
+  <h3>إضافة سجل</h3><input id="ledgerId" type="hidden">
+  <label>الجدول<select id="ledgerOwner"><option>Aladdin</option><option>Ahmad</option></select></label>
+  <label>Name<input id="ledgerName" required></label><label>Amount<input id="ledgerAmount" type="number" min="0" step=".01" required></label>
+  <label>Date<input id="ledgerDate" type="date" required></label><label>Note<textarea id="ledgerNote"></textarea></label>
+  <div class="dialog-actions"><button type="button" class="secondary cancel">إلغاء</button><button class="primary">حفظ</button></div>
+</form></dialog>
+
+<dialog id="reminderDialog"><form id="reminderForm">
+  <h3>إضافة/تعديل تذكير</h3><input id="reminderId" type="hidden">
+  <label>نص الرسالة<textarea id="reminderText" required placeholder="تذكر يا علاء، عندك موعد مع المستأجر"></textarea></label>
+  <label>التاريخ<input id="reminderDate" type="date" required></label>
+  <label>الوقت<input id="reminderTime" type="time" required></label>
+  <label>البيت (اختياري)<select id="reminderHouse"><option value="">بدون تحديد</option><option>Aladdin</option><option>Ahmad</option></select></label>
+  <div class="dialog-actions"><button type="button" class="secondary cancel">إلغاء</button><button class="primary">حفظ</button></div>
+</form></dialog>
+
+<dialog id="tenantDetailsDialog">
+  <div style="padding:22px;max-height:82vh;overflow:auto">
+    <div class="panel-head"><h3 id="detailsTenantName">تفاصيل المستأجر</h3><button type="button" class="secondary" id="closeDetailsBtn">إغلاق</button></div>
+    <div id="tenantDetailsContent"></div>
+  </div>
+</dialog>
+
+<div id="toast" class="toast"></div>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const KEY="rental-manager-v9";
+const LEGACY_KEYS=["rental-manager-v86","rental-manager-v85","rental-manager-v5","rental-manager-v8","rental-manager-v82"]; 
+const AHMAD_ROOMS=[
+"Ahmad 1st Floor Room#1","Ahmad 1st Floor Room#2","Ahmad 1st Floor Room#3","Ahmad 1st Floor Room#4",
+"Ahmad 2nd Floor Room#1","Ahmad 2nd Floor Room#2","Ahmad 2nd Floor Room#3",
+"Ahmad 3rd Floor Room#1","Ahmad 3rd Floor Room#2","Ahmad 3rd Floor Room#3"
+];
+const defaultState=()=>({rooms:AHMAD_ROOMS.map((name,i)=>({id:"ahmad-"+(i+1),house:"Ahmad",name,rent:0})),tenants:[],payments:[],expenses:[],ledgers:[],archive:[],archiveRooms:[],roomHistory:[],reminders:[],notificationLog:{}});
+let state=load(),roomHouse="Aladdin",tenantHouse="Aladdin",expenseOwner="Aladdin",ledgerOwner="Aladdin";
+function load(){
+ try{
+  let raw=localStorage.getItem(KEY);
+  if(!raw){for(const oldKey of LEGACY_KEYS){raw=localStorage.getItem(oldKey);if(raw){localStorage.setItem(KEY,raw);break}}}
+  return {...defaultState(),...JSON.parse(raw||"{}")};
+ }catch{return defaultState()}
+}
+function save(){
+ try{
+  localStorage.setItem(KEY,JSON.stringify(state));
+  renderAll();
+  scheduleCloudSave();
+  return true;
+ }catch(err){
+  console.error("Save failed",err);
+  toast("تعذر حفظ البيانات على هذا الجهاز. جرّب حذف مرفق كبير أو تصدير نسخة احتياطية.");
+  return false;
+ }
+}
+const uid=()=>crypto.randomUUID?.()||Date.now()+"-"+Math.random();
+const money=n=>new Intl.NumberFormat("en-US",{style:"currency",currency:"USD"}).format(Number(n||0));
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+const roomById=id=>state.rooms.find(r=>r.id===id);
+const tenantByRoom=id=>state.tenants.find(t=>t.roomId===id);
+function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),1800)}
+function today(){return new Date().toISOString().slice(0,10)}
+function monthKey(d=today()){return String(d||today()).slice(0,7)}
+function fileToData(file){return new Promise((resolve,reject)=>{if(!file)return resolve(null);if(file.size>1572864)return reject(new Error("الملف أكبر من 1.5 MB"));const r=new FileReader();r.onload=()=>resolve({name:file.name,type:file.type||"application/octet-stream",data:r.result});r.onerror=()=>reject(new Error("تعذر قراءة الملف"));r.readAsDataURL(file)})}
+function attachmentLink(file,label){if(!file?.data)return `<span class="muted">لا يوجد ${label}</span>`;return `<div class="attachment-row"><span>${esc(file.name||label)}</span><a href="${file.data}" download="${esc(file.name||label)}">فتح / تنزيل</a></div>`}
+function tenantMonthSummary(t){const key=monthKey(),rent=Number(t.rent||roomById(t.roomId)?.rent||0),paid=state.payments.filter(p=>p.tenantId===t.id&&monthKey(p.date)===key).reduce((s,p)=>s+Number(p.amount||0),0);return {rent,paid,balance:Math.max(0,rent-paid)}}
+
+function renderAll(){renderDashboard();renderRooms();renderTenants();renderPayments();renderExpenses();renderLedgers();renderFinance();renderReminders();renderArchive();fillPaymentTenants()}
+function renderDashboard(){
+ const monthly=state.tenants.reduce((s,t)=>s+Number(t.rent||roomById(t.roomId)?.rent||0),0);
+ const expenses=state.expenses.reduce((s,x)=>s+Number(x.amount||0),0);
+ $("#statOccupied").textContent=state.tenants.length;$("#statTenants").textContent=state.tenants.length;$("#statIncome").textContent=money(monthly);$("#statExpenses").textContent=money(expenses);
+ const now=new Date();now.setHours(0,0,0,0);const tomorrow=new Date(now);tomorrow.setDate(now.getDate()+1);const alerts=[];
+ state.tenants.forEach(t=>{const r=roomById(t.roomId);if(t.end){const end=new Date(t.end+"T12:00:00");end.setHours(0,0,0,0);const d=Math.round((end-now)/86400000);if(d===30)alerts.push(`${t.name} — ${r?.name||""}: تبقى 30 يومًا على نهاية العقد`)}
+ const due=Number(t.dueDay||1),last=new Date(tomorrow.getFullYear(),tomorrow.getMonth()+1,0).getDate();if(Math.min(due,last)===tomorrow.getDate())alerts.push(`${t.name} — ${r?.name||""}: الإيجار مستحق غدًا`)});
+ $("#alertsList").innerHTML=alerts.length?alerts.map(a=>`<div class="list-item"><div>${esc(a)}</div></div>`).join(""):`<div class="empty">لا توجد تنبيهات حاليًا</div>`;
+}
+function renderRooms(){
+ const q=$("#roomSearch").value.toLowerCase();
+ const occupied=state.rooms.filter(r=>r.house===roomHouse).map(r=>({r,t:tenantByRoom(r.id)})).filter(x=>x.t).filter(x=>(x.r.name+" "+x.t.name).toLowerCase().includes(q));
+ $("#roomsGrid").innerHTML=occupied.length?occupied.map(({r,t})=>`<article class="room-card"><span class="badge">مؤجرة</span><h3>${esc(r.name)}</h3><div class="meta">المستأجر: ${esc(t.name)}<br>الإيجار: ${money(t.rent||r.rent)}<br>بداية العقد: ${esc(t.start||"-")}<br>نهاية العقد: ${esc(t.end||"غير محددة")}<br>الهاتف: ${esc(t.phone||"-")}</div><div class="actions wrap"><button class="secondary" onclick="editRoom('${r.id}')">تعديل</button><button class="secondary" onclick="showTenantDetails('${t.id}')">عرض</button><button class="danger" onclick="archiveRoom('${r.id}')">أرشفة الغرفة</button><button class="danger-solid" onclick="deleteRoom('${r.id}')">حذف الغرفة</button></div></article>`).join(""):`<div class="empty">لا توجد غرف مؤجرة في هذه القائمة</div>`;
+}
+function renderTenants(){
+ const q=$("#tenantSearch").value.toLowerCase(),rows=state.tenants.filter(t=>roomById(t.roomId)?.house===tenantHouse).filter(t=>(t.name+" "+(t.phone||"")+" "+(t.email||"")).toLowerCase().includes(q));
+ $("#tenantList").innerHTML=rows.length?rows.map(t=>{const r=roomById(t.roomId);return `<div class="tenant-card"><button class="name-link" onclick="showTenantDetails('${t.id}')">${esc(t.name)}</button><div class="meta">${esc(r?.name||"")}<br>الإيجار: ${money(t.rent||r?.rent)} · الاستحقاق: يوم ${t.dueDay||1}<br>${t.phone?`<a href="tel:${esc(t.phone)}">${esc(t.phone)}</a>`:""}${t.email?`<br>${esc(t.email)}`:""}</div><div class="actions"><button class="primary" onclick="showTenantDetails('${t.id}')">التفاصيل</button><button class="secondary" onclick="editTenant('${t.id}')">تعديل</button><button class="danger" onclick="archiveTenant('${t.id}')">إنهاء</button></div></div>`}).join(""):`<div class="empty">لا يوجد مستأجرون</div>`;
+}
+function renderPayments(){
+ const rows=[...state.payments].sort((a,b)=>b.date.localeCompare(a.date));
+ $("#paymentsList").innerHTML=rows.length?rows.map(p=>{const t=state.tenants.find(x=>x.id===p.tenantId)||state.archive.find(x=>x.id===p.tenantId);return `<div class="list-item"><div><strong>${esc(t?.name||"مستأجر")}</strong><div class="meta">${p.date} · ${esc(p.method)} · ${esc(p.note||"")}</div></div><strong>${money(p.amount)}</strong></div>`}).join(""):`<div class="empty">لا توجد دفعات</div>`;
+}
+function renderTable(kind,owner,bodyId){
+ const rows=state[kind].filter(x=>x.owner===owner).sort((a,b)=>b.date.localeCompare(a.date));
+ $(bodyId).innerHTML=rows.length?rows.map(x=>`<tr><td>${esc(x.name)}</td><td>${money(x.amount)}</td><td>${x.date}</td><td>${esc(x.note||"")}</td><td><button class="danger" onclick="deleteRow('${kind}','${x.id}')">حذف</button></td></tr>`).join(""):`<tr><td colspan="5" class="empty">لا توجد سجلات</td></tr>`;
+}
+function renderExpenses(){renderTable("expenses",expenseOwner,"#expenseBody")}
+
+function financeForOwner(owner,key){
+ const tenants=state.tenants.filter(t=>roomById(t.roomId)?.house===owner);
+ const expected=tenants.reduce((sum,t)=>sum+Number(t.rent||roomById(t.roomId)?.rent||0),0);
+ const tenantIds=new Set(tenants.map(t=>t.id));
+ const collected=state.payments.filter(p=>tenantIds.has(p.tenantId)&&monthKey(p.date)===key).reduce((sum,p)=>sum+Number(p.amount||0),0);
+ const expenses=state.expenses.filter(x=>x.owner===owner&&monthKey(x.date)===key).reduce((sum,x)=>sum+Number(x.amount||0),0);
+ return {tenants,expected,collected,outstanding:Math.max(0,expected-collected),expenses,net:collected-expenses};
+}
+function renderFinance(){
+ const input=$("#financeMonth");if(!input)return;if(!input.value)input.value=monthKey();const key=input.value;
+ const owners=["Aladdin","Ahmad"],summaries=owners.map(owner=>({owner,...financeForOwner(owner,key)}));
+ const total=summaries.reduce((a,x)=>({expected:a.expected+x.expected,collected:a.collected+x.collected,outstanding:a.outstanding+x.outstanding,expenses:a.expenses+x.expenses,net:a.net+x.net}),{expected:0,collected:0,outstanding:0,expenses:0,net:0});
+ $("#finExpected").textContent=money(total.expected);$("#finCollected").textContent=money(total.collected);$("#finOutstanding").textContent=money(total.outstanding);$("#finExpenses").textContent=money(total.expenses);$("#finNet").textContent=money(total.net);
+ $("#finNet").parentElement.classList.toggle("negative",total.net<0);$("#finNet").parentElement.classList.toggle("positive",total.net>=0);
+ $("#financeOwners").innerHTML=summaries.map(x=>`<article class="owner-card"><h3>${x.owner}</h3><div class="owner-numbers"><div><span>الإيجار المتوقع</span><strong>${money(x.expected)}</strong></div><div><span>المحصل</span><strong>${money(x.collected)}</strong></div><div><span>المتبقي</span><strong>${money(x.outstanding)}</strong></div><div><span>المصاريف</span><strong>${money(x.expenses)}</strong></div><div><span>صافي الدخل</span><strong>${money(x.net)}</strong></div><div><span>عدد المستأجرين</span><strong>${x.tenants.length}</strong></div></div></article>`).join("");
+ const rows=state.tenants.map(t=>{const r=roomById(t.roomId),rent=Number(t.rent||r?.rent||0),paid=state.payments.filter(p=>p.tenantId===t.id&&monthKey(p.date)===key).reduce((sum,p)=>sum+Number(p.amount||0),0);return {t,r,rent,paid,balance:Math.max(0,rent-paid)}});
+ $("#financeTenantBody").innerHTML=rows.length?rows.map(x=>`<tr><td>${esc(x.t.name)}</td><td>${esc(x.r?.house||"")}</td><td>${esc(x.r?.name||"")}</td><td>${money(x.rent)}</td><td>${money(x.paid)}</td><td>${money(x.balance)}</td></tr>`).join(""):`<tr><td colspan="6" class="empty">لا يوجد مستأجرون</td></tr>`;
+}
+
+function renderLedgers(){renderTable("ledgers",ledgerOwner,"#ledgerBody")}
+function renderReminders(){
+ const rows=[...(state.reminders||[])].sort((a,b)=>(a.date+"T"+a.time).localeCompare(b.date+"T"+b.time));
+ const now=new Date();
+ $("#remindersList").innerHTML=rows.length?rows.map(r=>{const due=new Date(`${r.date}T${r.time||"00:00"}`)<=now&&!r.sentAt;return `<div class="reminder-card ${due?"due":""} ${r.sentAt?"sent":""}"><strong>${esc(r.text)}</strong><div class="reminder-meta">${esc(r.date)} — ${esc(r.time)}${r.house?` — ${esc(r.house)}`:""}${r.sentAt?` — تم الإرسال`:""}</div><div class="actions"><button class="secondary" onclick="editReminder('${r.id}')">تعديل</button><button class="danger" onclick="deleteReminder('${r.id}')">حذف</button></div></div>`}).join(""):`<div class="empty">لا توجد تذكيرات</div>`;
+}
+function renderArchive(){
+ const rooms=state.archiveRooms||[],tenants=state.archive||[];
+ const roomHtml=rooms.map(a=>`<div class="archive-card"><h3>${esc(a.room?.name||"غرفة مؤرشفة")}</h3><div class="meta">البيت: ${esc(a.room?.house||"")}<br>المستأجر: ${esc(a.tenant?.name||"-")}<br>بداية العقد: ${esc(a.tenant?.start||"-")}<br>نهاية العقد: ${esc(a.tenant?.end||"-")}<br>تاريخ الأرشفة: ${esc(a.archivedAt||"")}</div>${a.tenant?`<div class="actions"><button class="secondary" onclick="showArchivedRoom('${a.id}')">التفاصيل</button></div>`:""}</div>`).join("");
+ const tenantHtml=tenants.map(t=>`<div class="list-item"><div><strong>${esc(t.name)}</strong><div class="meta">${esc(t.roomName||"")} · ${t.end||""}</div></div><button class="secondary" onclick="showTenantDetails('${t.id}')">التفاصيل</button></div>`).join("");
+ $("#archiveList").innerHTML=(roomHtml+tenantHtml)||`<div class="empty">الأرشيف فارغ</div>`;
+}
+function fillPaymentTenants(){$("#paymentTenant").innerHTML=state.tenants.map(t=>`<option value="${t.id}">${esc(t.name)} — ${esc(roomById(t.roomId)?.name||"")}</option>`).join("")}
+
+function updateRoomNameControl(){
+ const ahmad=$("#roomHouse").value==="Ahmad";$("#roomNameSelect").style.display=ahmad?"block":"none";$("#roomNameCustom").style.display=ahmad?"none":"block";
+ $("#roomNameSelect").innerHTML=AHMAD_ROOMS.map(n=>`<option>${n}</option>`).join("");
+}
+function fillTenantRooms(selected=""){
+ const house=$("#tenantHouse").value;const current=$("#tenantId").value;const currentTenant=state.tenants.find(t=>t.id===current);
+ const rooms=state.rooms.filter(r=>r.house===house).filter(r=>!tenantByRoom(r.id)||currentTenant?.roomId===r.id);
+ $("#tenantRoom").innerHTML=rooms.map(r=>`<option value="${r.id}" ${r.id===selected?"selected":""}>${esc(r.name)}</option>`).join("");
+}
+
+$("#addRoomBtn").onclick=()=>{ $("#roomForm").reset();$("#roomId").value="";$("#roomHouse").value=roomHouse;updateRoomNameControl();$("#roomDialog").showModal() };
+$("#roomHouse").onchange=updateRoomNameControl;
+$("#roomForm").onsubmit=e=>{e.preventDefault();const id=$("#roomId").value||uid(),house=$("#roomHouse").value,name=house==="Ahmad"?$("#roomNameSelect").value:$("#roomNameCustom").value.trim();if(!name)return;
+ const duplicate=state.rooms.find(r=>r.house===house&&r.name===name&&r.id!==id);if(duplicate){toast("هذه الغرفة موجودة مسبقًا");return}
+ const room={id,house,name,rent:Number($("#roomRent").value||0)};const i=state.rooms.findIndex(r=>r.id===id);i>=0?state.rooms[i]=room:state.rooms.push(room);$("#roomDialog").close();save();toast("تم حفظ الغرفة. ستظهر هنا بعد ربطها بمستأجر")};
+window.editRoom=id=>{const r=roomById(id);$("#roomId").value=r.id;$("#roomHouse").value=r.house;updateRoomNameControl();if(r.house==="Ahmad")$("#roomNameSelect").value=r.name;else $("#roomNameCustom").value=r.name;$("#roomRent").value=r.rent;$("#roomDialog").showModal()};
+
+$("#addTenantBtn").onclick=()=>{$("#tenantForm").reset();$("#tenantId").value="";$("#tenantHouse").value=tenantHouse;fillTenantRooms();$("#tenantStart").value=today();$("#tenantDueDay").value=1;$("#tenantDialog").showModal()};
+$("#tenantHouse").onchange=()=>fillTenantRooms();
+$("#tenantRoom").onchange=()=>{const r=roomById($("#tenantRoom").value);if(r)$("#tenantRent").value=r.rent||""};
+$("#tenantForm").onsubmit=async e=>{e.preventDefault();const id=$("#tenantId").value||uid(),roomId=$("#tenantRoom").value;if(!roomId){toast("أضف غرفة متاحة أولًا");return}const old=state.tenants.find(t=>t.id===id);try{
+ const idFile=await fileToData($("#tenantIdFile").files[0]);const contractFile=await fileToData($("#tenantContractFile").files[0]);
+ const t={id,name:$("#tenantName").value.trim(),phone:$("#tenantPhone").value.trim(),email:$("#tenantEmail").value.trim(),emergency:$("#tenantEmergency").value.trim(),roomId,rent:Number($("#tenantRent").value||0),start:$("#tenantStart").value,end:$("#tenantEnd").value,deposit:Number($("#tenantDeposit").value||0),dueDay:Number($("#tenantDueDay").value||1),notes:$("#tenantNotes").value.trim(),idFile:idFile||old?.idFile||null,contractFile:contractFile||old?.contractFile||null};
+ if(old&&old.roomId!==roomId)state.roomHistory.push({id:uid(),tenantId:id,fromRoomId:old.roomId,toRoomId:roomId,date:today()});
+ const i=state.tenants.findIndex(x=>x.id===id);i>=0?state.tenants[i]=t:state.tenants.push(t);const r=roomById(roomId);if(r)r.rent=t.rent;$("#tenantDialog").close();save();toast("تم حفظ المستأجر")}catch(err){toast(err.message||"تعذر حفظ الملف")}};
+window.editTenant=id=>{const t=state.tenants.find(x=>x.id===id),r=roomById(t.roomId);$("#tenantId").value=t.id;$("#tenantName").value=t.name;$("#tenantPhone").value=t.phone||"";$("#tenantEmail").value=t.email||"";$("#tenantEmergency").value=t.emergency||"";$("#tenantHouse").value=r?.house||"Aladdin";fillTenantRooms(t.roomId);$("#tenantRent").value=t.rent||r?.rent||0;$("#tenantStart").value=t.start;$("#tenantEnd").value=t.end||"";$("#tenantDeposit").value=t.deposit||0;$("#tenantDueDay").value=t.dueDay||1;$("#tenantNotes").value=t.notes||"";$("#tenantIdFile").value="";$("#tenantContractFile").value="";$("#tenantDialog").showModal()};
+window.showTenantDetails=id=>{const t=state.tenants.find(x=>x.id===id)||state.archive.find(x=>x.id===id);if(!t)return;const r=roomById(t.roomId),sum=tenantMonthSummary(t),payments=state.payments.filter(p=>p.tenantId===id).sort((a,b)=>b.date.localeCompare(a.date)),history=(state.roomHistory||[]).filter(h=>h.tenantId===id);$("#detailsTenantName").textContent=t.name;$("#tenantDetailsContent").innerHTML=`
+ <div class="mini-stats"><div class="detail-box"><span>إيجار هذا الشهر</span><strong>${money(sum.rent)}</strong></div><div class="detail-box"><span>المدفوع هذا الشهر</span><strong>${money(sum.paid)}</strong></div><div class="detail-box"><span>المتبقي</span><strong>${money(sum.balance)}</strong></div></div>
+ <h4 class="section-title">بيانات العقد</h4><div class="details-grid"><div class="detail-box"><span>البيت / الغرفة</span><strong>${esc(r?.house||"")} — ${esc(r?.name||t.roomName||"")}</strong></div><div class="detail-box"><span>الإيجار</span><strong>${money(t.rent||r?.rent)}</strong></div><div class="detail-box"><span>بداية الإيجار</span><strong>${esc(t.start||"-")}</strong></div><div class="detail-box"><span>نهاية الإيجار</span><strong>${esc(t.end||"غير محددة")}</strong></div><div class="detail-box"><span>التأمين</span><strong>${money(t.deposit||0)}</strong></div><div class="detail-box"><span>يوم الاستحقاق</span><strong>${esc(t.dueDay||1)}</strong></div><div class="detail-box"><span>الهاتف</span><strong>${t.phone?`<a href="tel:${esc(t.phone)}">${esc(t.phone)}</a>`:"-"}</strong></div><div class="detail-box"><span>البريد الإلكتروني</span><strong>${esc(t.email||"-")}</strong></div><div class="detail-box detail-wide"><span>جهة اتصال للطوارئ</span><strong>${esc(t.emergency||"-")}</strong></div><div class="detail-box detail-wide"><span>ملاحظات</span><strong>${esc(t.notes||"-")}</strong></div></div>
+ <h4 class="section-title">المرفقات</h4><div class="stack">${attachmentLink(t.idFile,"ملف الهوية")}${attachmentLink(t.contractFile,"ملف العقد")}</div>
+ <h4 class="section-title">سجل الدفعات</h4><div class="list">${payments.length?payments.map(p=>`<div class="list-item"><div><strong>${money(p.amount)}</strong><div class="meta">${esc(p.date)} · ${esc(p.method||"")} · ${esc(p.note||"")}</div></div></div>`).join(""):`<div class="empty">لا توجد دفعات</div>`}</div>
+ <h4 class="section-title">سجل الانتقال بين الغرف</h4><div class="list">${history.length?history.map(h=>`<div class="list-item"><div>${esc(roomById(h.fromRoomId)?.name||"غرفة سابقة")} ← ${esc(roomById(h.toRoomId)?.name||"غرفة جديدة")}<div class="meta">${esc(h.date)}</div></div></div>`).join(""):`<div class="empty">لا يوجد انتقال مسجل</div>`}</div>`;$("#tenantDetailsDialog").showModal()};
+$("#closeDetailsBtn").onclick=()=>$("#tenantDetailsDialog").close();
+window.archiveTenant=id=>{if(!confirm("إنهاء هذا المستأجر ونقله إلى الأرشيف؟"))return;const t=state.tenants.find(x=>x.id===id),r=roomById(t.roomId);state.archive.push({...t,roomName:r?.name,end:t.end||today()});state.tenants=state.tenants.filter(x=>x.id!==id);save()};
+
+window.deleteRoom=id=>{const r=roomById(id);if(!r)return;const t=tenantByRoom(id);const msg=t?`سيتم حذف الغرفة والمستأجر ${t.name} وسجل دفعاته نهائيًا. هل أنت متأكد؟`:`سيتم حذف الغرفة نهائيًا. هل أنت متأكد؟`;if(!confirm(msg))return;if(t){state.tenants=state.tenants.filter(x=>x.id!==t.id);state.payments=state.payments.filter(p=>p.tenantId!==t.id);state.roomHistory=(state.roomHistory||[]).filter(h=>h.tenantId!==t.id)}state.rooms=state.rooms.filter(x=>x.id!==id);save();toast("تم حذف الغرفة")};
+window.archiveRoom=id=>{const r=roomById(id),t=tenantByRoom(id);if(!r)return;if(!confirm("أرشفة الغرفة ونقل جميع معلوماتها إلى الأرشيف؟"))return;const payments=t?state.payments.filter(p=>p.tenantId===t.id):[];const history=t?(state.roomHistory||[]).filter(h=>h.tenantId===t.id):[];state.archiveRooms=state.archiveRooms||[];state.archiveRooms.push({id:uid(),room:{...r},tenant:t?{...t,roomName:r.name}:null,payments,history,archivedAt:today()});if(t)state.tenants=state.tenants.filter(x=>x.id!==t.id);state.rooms=state.rooms.filter(x=>x.id!==id);save();toast("تمت أرشفة الغرفة")};
+window.showArchivedRoom=id=>{const a=(state.archiveRooms||[]).find(x=>x.id===id);if(!a?.tenant)return;const t=a.tenant;$("#detailsTenantName").textContent=t.name;$("#tenantDetailsContent").innerHTML=`<h4 class="section-title">الغرفة المؤرشفة</h4><div class="details-grid"><div class="detail-box"><span>البيت / الغرفة</span><strong>${esc(a.room?.house||"")} — ${esc(a.room?.name||"")}</strong></div><div class="detail-box"><span>الإيجار</span><strong>${money(t.rent||a.room?.rent)}</strong></div><div class="detail-box"><span>بداية العقد</span><strong>${esc(t.start||"-")}</strong></div><div class="detail-box"><span>نهاية العقد</span><strong>${esc(t.end||"-")}</strong></div><div class="detail-box"><span>الهاتف</span><strong>${esc(t.phone||"-")}</strong></div><div class="detail-box"><span>تاريخ الأرشفة</span><strong>${esc(a.archivedAt||"")}</strong></div><div class="detail-box detail-wide"><span>ملاحظات</span><strong>${esc(t.notes||"-")}</strong></div></div><h4 class="section-title">الدفعات المحفوظة</h4><div class="list">${a.payments?.length?a.payments.map(p=>`<div class="list-item"><div><strong>${money(p.amount)}</strong><div class="meta">${esc(p.date)} · ${esc(p.method||"")}</div></div></div>`).join(""):`<div class="empty">لا توجد دفعات</div>`}</div>`;$("#tenantDetailsDialog").showModal()};
+
+$("#addReminderBtn").onclick=()=>{$("#reminderForm").reset();$("#reminderId").value="";$("#reminderDate").value=today();$("#reminderTime").value="09:00";$("#reminderDialog").showModal()};
+$("#reminderForm").onsubmit=e=>{e.preventDefault();const id=$("#reminderId").value||uid();const old=(state.reminders||[]).find(r=>r.id===id);const row={id,text:$("#reminderText").value.trim(),date:$("#reminderDate").value,time:$("#reminderTime").value,house:$("#reminderHouse").value,sentAt:old?.date===$("#reminderDate").value&&old?.time===$("#reminderTime").value?old.sentAt:null};state.reminders=state.reminders||[];const i=state.reminders.findIndex(r=>r.id===id);i>=0?state.reminders[i]=row:state.reminders.push(row);$("#reminderDialog").close();save();toast("تم حفظ التذكير")};
+window.editReminder=id=>{const r=(state.reminders||[]).find(x=>x.id===id);if(!r)return;$("#reminderId").value=r.id;$("#reminderText").value=r.text;$("#reminderDate").value=r.date;$("#reminderTime").value=r.time;$("#reminderHouse").value=r.house||"";$("#reminderDialog").showModal()};
+window.deleteReminder=id=>{if(confirm("حذف التذكير؟")){state.reminders=(state.reminders||[]).filter(r=>r.id!==id);save()}};
+
+$("#addPaymentBtn").onclick=()=>{$("#paymentForm").reset();fillPaymentTenants();$("#paymentDate").value=today();$("#paymentDialog").showModal()};
+$("#paymentForm").onsubmit=e=>{e.preventDefault();state.payments.push({id:uid(),tenantId:$("#paymentTenant").value,amount:Number($("#paymentAmount").value),date:$("#paymentDate").value,method:$("#paymentMethod").value,note:$("#paymentNote").value.trim()});$("#paymentDialog").close();save();toast("تم حفظ الدفعة")};
+
+function openExpense(id=""){const x=state.expenses.find(v=>v.id===id);$("#expenseId").value=x?.id||"";$("#expenseOwner").value=x?.owner||expenseOwner;$("#expenseName").value=x?.name||"";$("#expenseAmount").value=x?.amount||"";$("#expenseDate").value=x?.date||today();$("#expenseNote").value=x?.note||"";$("#expenseDialog").showModal()}
+$("#addExpenseBtn").onclick=()=>openExpense();
+$("#expenseForm").onsubmit=e=>{e.preventDefault();upsert("expenses",{id:$("#expenseId").value||uid(),owner:$("#expenseOwner").value,name:$("#expenseName").value.trim(),amount:Number($("#expenseAmount").value),date:$("#expenseDate").value,note:$("#expenseNote").value.trim()});expenseOwner=$("#expenseOwner").value;$("#expenseDialog").close();save();toast("تم حفظ المصروف")};
+
+function openLedger(id=""){const x=state.ledgers.find(v=>v.id===id);$("#ledgerId").value=x?.id||"";$("#ledgerOwner").value=x?.owner||ledgerOwner;$("#ledgerName").value=x?.name||"";$("#ledgerAmount").value=x?.amount||"";$("#ledgerDate").value=x?.date||today();$("#ledgerNote").value=x?.note||"";$("#ledgerDialog").showModal()}
+$("#addLedgerBtn").onclick=()=>openLedger();
+$("#ledgerForm").onsubmit=e=>{e.preventDefault();upsert("ledgers",{id:$("#ledgerId").value||uid(),owner:$("#ledgerOwner").value,name:$("#ledgerName").value.trim(),amount:Number($("#ledgerAmount").value),date:$("#ledgerDate").value,note:$("#ledgerNote").value.trim()});ledgerOwner=$("#ledgerOwner").value;$("#ledgerDialog").close();save();toast("تم حفظ السجل")};
+function upsert(kind,row){const i=state[kind].findIndex(x=>x.id===row.id);i>=0?state[kind][i]=row:state[kind].push(row)}
+window.deleteRow=(kind,id)=>{if(confirm("حذف السجل؟")){state[kind]=state[kind].filter(x=>x.id!==id);save()}};
+
+$$("dialog .cancel").forEach(b=>b.onclick=()=>b.closest("dialog").close());
+$$(".bottom-nav button").forEach(b=>b.onclick=()=>{$$(".bottom-nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");$$(".page").forEach(p=>p.classList.remove("active"));$("#"+b.dataset.page).classList.add("active");window.scrollTo({top:0,behavior:"smooth"})});
+function tabHandler(container,key,cb){$(container).onclick=e=>{const b=e.target.closest("button");if(!b)return;$$(container+" button").forEach(x=>x.classList.toggle("active",x===b));cb(b.dataset[key])}}
+tabHandler("#roomHouseTabs","house",v=>{roomHouse=v;renderRooms()});tabHandler("#tenantHouseTabs","house",v=>{tenantHouse=v;renderTenants()});tabHandler("#expenseTabs","owner",v=>{expenseOwner=v;renderExpenses()});tabHandler("#ledgerTabs","owner",v=>{ledgerOwner=v;renderLedgers()});
+$("#roomSearch").oninput=renderRooms;$("#tenantSearch").oninput=renderTenants;
+$("#financeMonth").onchange=renderFinance;$("#financeCurrentMonth").onclick=()=>{$("#financeMonth").value=monthKey();renderFinance()};
+
+$("#exportBtn").onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(state,null,2)],{type:"application/json"}));a.download="rental-backup-"+today()+".json";a.click()};
+$("#importInput").onchange=async e=>{try{state={...defaultState(),...JSON.parse(await e.target.files[0].text())};save();toast("تمت الاستعادة")}catch{toast("الملف غير صالح")}};
+
+const CLOUD_SETTINGS_KEY="rental-manager-cloud-v9";
+let cloudTimer=null, cloudDb=null, cloudUnsubscribe=null, cloudApplying=false;
+function cloudSettings(){try{return JSON.parse(localStorage.getItem(CLOUD_SETTINGS_KEY)||"{}")||{}}catch{return {}}}
+function saveCloudSettings(value){localStorage.setItem(CLOUD_SETTINGS_KEY,JSON.stringify(value))}
+function setCloudStatus(ok,text,stamp=""){
+ const badge=$("#syncBadge"),dot=$("#cloudDot"),label=$("#cloudStatusText"),last=$("#cloudLastSync");
+ badge.textContent=ok?"متصل بالسحابة":"حفظ محلي";badge.classList.toggle("cloud",ok);badge.classList.toggle("local",!ok);
+ if(dot)dot.classList.toggle("online",ok);if(label)label.textContent=text||(ok?"متصل":"غير متصل");if(last)last.textContent=stamp||(!ok?"حفظ محلي":"جاهز للمزامنة");
+}
+function cloudDocRef(){const id=($("#cloudDocumentId")?.value||"aladdin-rental-manager").trim();return cloudDb.collection("rentalManagers").doc(id)}
+function normalizeCloudState(data){const payload=data?.state||data;if(!payload||typeof payload!=="object")throw new Error("بيانات السحابة غير صالحة");return {...defaultState(),...payload}}
+async function pushCloud(silent=false){if(!cloudDb){if(!silent)toast("اتصل بـ Firebase أولًا");return}try{await cloudDocRef().set({state,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"9.0"},{merge:false});const stamp="آخر رفع: "+new Date().toLocaleTimeString("ar");setCloudStatus(true,"متصل",stamp);if(!silent)toast("تم رفع البيانات للسحابة")}catch(err){setCloudStatus(false,"خطأ في الاتصال");if(!silent)toast("فشل الرفع: "+(err.message||err))}}
+async function pullCloud(silent=false){if(!cloudDb){if(!silent)toast("اتصل بـ Firebase أولًا");return}try{const snap=await cloudDocRef().get();if(!snap.exists){if(!silent)toast("لا توجد بيانات سحابية بعد");return}cloudApplying=true;state=normalizeCloudState(snap.data());localStorage.setItem(KEY,JSON.stringify(state));renderAll();cloudApplying=false;setCloudStatus(true,"متصل","آخر تنزيل: "+new Date().toLocaleTimeString("ar"));if(!silent)toast("تم تنزيل بيانات السحابة")}catch(err){cloudApplying=false;setCloudStatus(false,"خطأ في الاتصال");if(!silent)toast("فشل التنزيل: "+(err.message||err))}}
+function hasLocalData(){return [state.tenants,state.payments,state.expenses,state.ledgers,state.archive,state.archiveRooms,state.reminders].some(a=>Array.isArray(a)&&a.length>0)||state.rooms.some(r=>Number(r.rent||0)>0)}
+function startCloudListener(ref){
+ if(cloudUnsubscribe)cloudUnsubscribe();
+ let firstEvent=true;
+ cloudUnsubscribe=ref.onSnapshot(snap=>{
+  if(firstEvent){firstEvent=false;return}
+  if(!snap.exists||cloudApplying)return;
+  try{
+   const incoming=normalizeCloudState(snap.data());
+   if(JSON.stringify(incoming)!==JSON.stringify(state)){
+    cloudApplying=true;state=incoming;localStorage.setItem(KEY,JSON.stringify(state));renderAll();cloudApplying=false;
+   }
+   setCloudStatus(true,"متصل","آخر مزامنة: "+new Date().toLocaleTimeString("ar"));
+  }catch(err){setCloudStatus(false,"خطأ في بيانات السحابة")}
+ },()=>setCloudStatus(false,"انقطع الاتصال"));
+}
+async function connectCloud(auto=false){
+ try{
+  if(typeof firebase==="undefined")throw new Error("تعذر تحميل مكتبة Firebase. تحقق من الإنترنت");
+  const raw=$("#firebaseConfigInput")?.value.trim();if(!raw)throw new Error("أدخل Firebase Config بصيغة JSON");
+  const config=JSON.parse(raw);if(!config.apiKey||!config.projectId||!config.appId)throw new Error("Firebase Config غير مكتمل");
+  const docId=($("#cloudDocumentId").value||"aladdin-rental-manager").trim();if(!/^[A-Za-z0-9_-]{3,80}$/.test(docId))throw new Error("معرّف قاعدة البيانات يجب أن يحتوي حروفًا أو أرقامًا أو - أو _ فقط");
+  if(cloudUnsubscribe){cloudUnsubscribe();cloudUnsubscribe=null}
+  if(firebase.apps.length)await Promise.all(firebase.apps.map(a=>a.delete()));
+  const app=firebase.initializeApp(config);cloudDb=app.firestore();saveCloudSettings({config,docId});setCloudStatus(true,"جاري اختبار الاتصال…");
+  const ref=cloudDocRef();const first=await ref.get();
+  if(first.exists){
+   setCloudStatus(true,"متصل","توجد بيانات في السحابة — اختر تنزيل أو رفع");
+   if(!hasLocalData()||(!auto&&confirm("توجد بيانات محفوظة في السحابة. هل تريد تنزيلها الآن؟")))await pullCloud(true);
+  }else{
+   setCloudStatus(true,"متصل","السحابة فارغة — اضغط رفع بيانات هذا الجهاز");
+  }
+  startCloudListener(ref);
+  if(!auto)toast("تم الاتصال بـ Firebase");
+ }catch(err){cloudDb=null;setCloudStatus(false,"غير متصل");if(!auto)toast("فشل الاتصال: "+(err.message||err))}
+}
+async function disconnectCloud(){if(cloudUnsubscribe)cloudUnsubscribe();cloudUnsubscribe=null;cloudDb=null;try{await Promise.all(firebase.apps.map(a=>a.delete()))}catch{}localStorage.removeItem(CLOUD_SETTINGS_KEY);$("#firebaseConfigInput").value="";setCloudStatus(false,"غير متصل");toast("تم فصل الاتصال")}
+function scheduleCloudSave(){if(cloudApplying||!cloudDb)return;clearTimeout(cloudTimer);cloudTimer=setTimeout(()=>pushCloud(true),800)}
+$("#connectCloudBtn").onclick=()=>connectCloud(false);$("#disconnectCloudBtn").onclick=disconnectCloud;$("#pushCloudBtn").onclick=()=>pushCloud(false);$("#pullCloudBtn").onclick=()=>pullCloud(false);
+const savedCloud=cloudSettings();if(savedCloud.config){$("#firebaseConfigInput").value=JSON.stringify(savedCloud.config,null,2);$("#cloudDocumentId").value=savedCloud.docId||"aladdin-rental-manager";setTimeout(()=>connectCloud(true),300)}else setCloudStatus(false,"غير متصل");
+
+renderAll();
+
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+إعداد رسائل Telegram — Rental Manager V9
+==========================================
+
+يحتاج GitHub Actions إلى أربعة Repository Secrets:
+
+TELEGRAM_BOT_TOKEN
+TELEGRAM_CHAT_ID
+FIREBASE_SERVICE_ACCOUNT
+FIREBASE_DOCUMENT_ID
+
+القيمة المقترحة لـ FIREBASE_DOCUMENT_ID:
+aladdin-rental-manager
+
+FIREBASE_SERVICE_ACCOUNT هو محتوى ملف JSON لمفتاح Service Account من Firebase/Google Cloud. لا تضعه داخل ملفات المستودع ولا ترسله لأي شخص.
+
+المسار الصحيح للـ Workflow:
+.github/workflows/telegram-reminders.yml
+
+بعد إضافة الأسرار افتح Actions > Telegram rental reminders > Run workflow للاختبار.
